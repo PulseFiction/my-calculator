@@ -20,29 +20,33 @@ function useCalculator() {
     el.addEventListener("click", () => {
       display.innerHTML += el.innerHTML;
 
-      
-
       // check if operator pressed
       if (el.dataset.key === "operator" && operator === 0) {
         first = display.innerHTML.slice(0, -1);
         operator = el.innerHTML;
-        display.innerHTML = '';
+        display.innerHTML = "";
       } else if (operator !== 0 && el.dataset.key === "operator") {
         second = display.innerHTML.slice(0, -1);
         result = calculate(first, second, operator);
         operator = el.innerHTML;
         first = result;
-        display.innerHTML = '';
+        display.innerHTML = "";
       }
 
-      console.log('first:' + first);
-      console.log('second:' + second);
-      console.log('result:' + result);
+      console.log("first:" + first);
+      console.log("second:" + second);
+      console.log("result:" + result);
 
-      //equals 
+      //equals
 
-      if (el.dataset.key === 'equals') {
+      if (el.dataset.key === "equals") {
         second = display.innerHTML.slice(0, -1);
+        // equals is pressed before anything else
+        if ((first === 0 && second === 0 && result === 0) || result === NaN) {
+          display.innerHTML = "0";
+          return;
+        }
+
         result = calculate(first, second, operator);
         display.innerHTML = result;
         operator = 0;
@@ -89,7 +93,6 @@ function times(a, b) {
 
 function cancel(display) {
   display.innerHTML = "";
-  
 }
 
 useCalculator();
